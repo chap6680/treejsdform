@@ -16,14 +16,19 @@
     </header>
 
     <form action="index.html" method="post">
-              
+		<div><img src="images/check.svg" alt="hey">/</div>
+		<div>
+			<input required type="text" id="first_name" name="first_name">
+			<label for="first_name">First Name</label>
+		  </div>	
+
       <fieldset>         
         <legend>Basic Info</legend>
+		
+		<label for="name">Name:</label>
+		<input required type="text" id="name" name="user_name">		  
         
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="user_name">
-        
-        <label for="mail">Email:</label>
+		<label for="mail">Email:</label>
         <input type="email" id="mail" name="user_email">
         
         <label for="title">Job Role</label>
@@ -34,7 +39,9 @@
           <option value="designer">Designer</option>          
           <option value="student">Student</option>
           <option value="other">Other</option>  
-        </select>           
+		</select>      
+
+		<label><input type="text" style="display: none" id="other-title" name="other-title" placeholder=  "Your Job Role"></label>     
       </fieldset>
       
       <fieldset class="shirt">
@@ -74,22 +81,22 @@
 
       <fieldset class="activities">
         <legend>Register for Activities</legend>
-        <label><input type="checkbox" name="all"> Main Conference — $200</label>
-        <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
-        <label><input type="checkbox" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
-        <label><input type="checkbox" name="express"> Express Workshop — Tuesday 9am-12pm, $100</label>
-        <label><input type="checkbox" name="node"> Node.js Workshop — Tuesday 1pm-4pm, $100</label>          
-        <label><input type="checkbox" name="build-tools"> Build tools Workshop — Wednesday 9am-12pm, $100</label>
-        <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, $100</label>
-                  	
-      </fieldset>
+        <label><input type="checkbox" class="cball" id="all" name="CBmain" value='200'> Main Conference — $200</label>
+        <label><input type="checkbox" class="cb1" id="js-frameworks" name="CBam" value='100'> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
+        <label><input type="checkbox" class="cb2" id="js-libs"  name="CBpm" value='100'> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
+        <label><input type="checkbox"  class="cb1" id="express" name="CBam" value='100'> Express Workshop — Tuesday 9am-12pm, $100</label>
+        <label><input type="checkbox" class="cb2" id="node" name="CBpm" value='100'> Node.js Workshop — Tuesday 1pm-4pm, $100</label>          
+        <label><input type="checkbox" class="cb1" id="build-tools" name="CBam" value='100'> Build tools Workshop — Wednesday 9am-12pm, $100</label>
+        <label><input type="checkbox" class="cb2" id="npm" name="CBpm" value='100'> npm Workshop — Wednesday 1pm-4pm, $100</label>          	
+	  </fieldset>
+	  
       <fieldset>
         <legend>Payment Info</legend>
 
         <label for="payment">I'm going to pay with:</label>
         <select id="payment" name="user_payment">
-          <option value="select_method">Select Payment Method</option>
-          <option value="credit card">Credit Card</option>
+          <option value="select_method" disabled>Select Payment Method</option>
+          <option selected="selected" value="credit card">Credit Card</option>
           <option value="paypal">PayPal</option>
           <option value="bitcoin">Bitcoin</option>
         </select>
@@ -136,14 +143,13 @@
           </select> 	                  	         
         </div>
 
-        <div>
+        <div id='paypal' style="display: none">
         	<p>If you selected the PayPal option we'll take you to Paypal's site to set up your billing information, when you click “Register” below.</p>
         </div> 
 
-        <div>
+        <div id='bitcoin' style="display: none">
         	<p>If you selected the Bitcoin option we'll take you to the Coinbase site to set up your billing information. Due to the nature of exchanging Bitcoin, all Bitcoin transactions will be final.</p>
         </div>                  
-
       </fieldset>        
         
       <button type="submit">Register</button>

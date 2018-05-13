@@ -135,6 +135,68 @@ button:hover {
 	margin-top: 1.25em;
 }
 
+.cball{
+	margin-right:42px;
+}
+
+.cb1{
+	margin-left:20px;
+	padding-right: 20px;
+	margin-right:22px;
+	color:red}
+
+.cb2{
+	margin-left:40px;
+}
+/* 
+:checked + label{
+	color:red;
+}
+input[type="checkbox"]:checked + label {
+    background:red;
+}
+#npm {
+	color:red;
+}
+
+#all{
+	color:red;
+}
+ */
+
+form > div {
+	position: relative;
+}
+
+form > div > label {
+	opacity: 0.3;
+	position: absolute;
+	top: 22px;
+	left: 20px;
+}
+
+form > div > input[type=text]:focus + label,
+form > div > input[type=email]:focus + label,
+form > div > input[type=password]:focus + label {
+opacity: 0;
+}
+
+form > input[type=text]:valid,
+form > input[type=email]:valid {
+  background: url(images/check.svg);
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: 20px 20px;
+}
+form > input[type=text]:valid + label,
+form > input[type=email]:valid + label {
+  opacity: 0;
+}
+form > label {
+  opacity: 0;
+}
+
+
 /* ================================= 
   Helper Classes
 ==================================== */
