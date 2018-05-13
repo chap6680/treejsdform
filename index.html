@@ -21,11 +21,13 @@
         <legend>Basic Info</legend>
 		
 		<label for="name">Name:</label>
-		<input required type="text" id="name" name="user_name">		  
-        
+		<input type="text" id="name" name="user_name" onblur="errHelper('name')" required>	
+		<p id="errname" class="errCSS"></p>
+		
 		<label for="mail">Email:</label>
-        <input type="email" id="mail" name="user_email">
-        
+        <input type="email" id="mail" name="user_email" onblur="errHelper(email)"required>
+		<p id="erremail" class="errCSS"></p>
+		
         <label for="title">Job Role</label>
         <select id="title" name="user_title">
           <option value="full-stack js developer">Full Stack JavaScript Developer</option>
@@ -75,8 +77,8 @@
       </fieldset>
 
       <fieldset class="activities">
-        <legend>Register for Activities</legend>
-        <label><input type="checkbox" class="cball" id="all" name="CBmain" value='200'> Main Conference — $200</label>
+		<legend  id='minClass'>Register for Activities - Select a Class</legend>
+	    <label><input type="checkbox" class="cball" id="all" name="CBall" value='200'> Main Conference — $200</label>
         <label><input type="checkbox" class="cb1" id="js-frameworks" name="CBam" value='100'> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
         <label><input type="checkbox" class="cb2" id="js-libs"  name="CBpm" value='100'> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
         <label><input type="checkbox"  class="cb1" id="express" name="CBam" value='100'> Express Workshop — Tuesday 9am-12pm, $100</label>
@@ -87,7 +89,6 @@
 	  
       <fieldset>
         <legend>Payment Info</legend>
-
         <label for="payment">I'm going to pay with:</label>
         <select id="payment" name="user_payment">
           <option value="select_method" disabled>Select Payment Method</option>
@@ -97,24 +98,27 @@
         </select>
 
         <div id="credit-card" class="credit-card">
-
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
-        	  <input id="cc-num" name="user_cc-num" type="text">
-          </div>
-
+			  <input id="cc-num" name="user_cc-num"  onblur="errHelper('cc-num')" type="text">
+	    </div>
+		<p id="errcc-num" class="errCSS"></p>
+        
           <div class="col-3 col">
             <label for="zip">Zip Code:</label>
-            <input id="zip" name="user_zip" type="text"> 
+            <input id="zip" name="user_zip" type="text" onblur="errHelper('zip')"> 
           </div>
+		  <p id="errzip" class="errCSS"></p>
 
           <div class="col-3 col">
             <label for="cvv">CVV:</label>
-            <input id="cvv" name="user_cvv" type="text"> 
+            <input id="cvv" name="user_cvv" type="text" onblur="errHelper('cvv')"> 
           </div>
+		  <p id="errcvv" class="errCSS"></p>
 
           <label for="exp-month">Expiration Date:</label>
           <select id="exp-month" name="user_exp-month">
+			<option value="select_method" selected="selected" disabled>Select Month</option>
             <option value="1">1 - January</option>
             <option value="2">2 - February</option>
             <option value="3">3 - March</option>
@@ -130,6 +134,7 @@
           </select>
           <label for="exp-year">Expiration Year:</label>
           <select id="exp-year" name="user_exp-year">
+				<option value="select_method" selected="selected" disabled>Select Year</option>
             <option value="2016">2016</option>
             <option value="2017">2017</option>
             <option value="2018">2018</option>

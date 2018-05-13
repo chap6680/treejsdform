@@ -163,7 +163,7 @@ input[type="checkbox"]:checked + label {
 	color:red;
 }
  */
-
+/* 
 form > div {
 	position: relative;
 }
@@ -196,6 +196,29 @@ form > label {
   opacity: 0;
 }
 
+ input[type="text"]:valid, input[type="email"]:valid{
+		background-image: url('../images/check.svg');
+		background-repeat: no-repeat;
+ }		
+ */
+ 
+ input:required:valid {
+	border-color: palegreen;
+}		
+/* input[disabled] {
+	outline:1px solid red; // or whatever
+	opacity: .5;
+	filter: alpha(opacity=50); 
+  }
+  input[disabled] + label {
+	color:red;
+  }
+ */
+
+.errCSS{
+	margin-top:-18px;
+	color:red;
+}
 
 /* ================================= 
   Helper Classes
