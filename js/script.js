@@ -283,6 +283,7 @@ function CBchangeHandler(e) {
 			return false;
 		} else {
 			document.getElementById('submitInfo').innerHTML = submitTemp;
+			alert("Missing Info - see items above buttond");
 			return false;
 		}
 	}
