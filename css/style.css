@@ -234,6 +234,11 @@ form > label {
   clear: both;
 }
 
+.totalSchedule {
+	font: 3em;
+	color:red;
+}
+
 /* ================================= 
   Media Queries
 ==================================== */
@@ -259,8 +264,11 @@ form > label {
 	}
 	.col-3 {
 		width: 23%;
+
+
 	}
 	.col-6 {
 		width: 49%;
+
 	}
 }
