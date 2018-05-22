@@ -15,7 +15,7 @@ const paymentTypes = [{
 	name: 'paypal'
 }];
 
-//set the dropdown colors based on selection.	
+//set the dropdown colors based on selection.  create from the list of colors in html	
 (function () {
 	const heart1 = "I &#9829; JS Shirt Only";
 
@@ -23,51 +23,60 @@ const paymentTypes = [{
 	//alternativly it could be something like
 	//{"yes":[{value:sweet, text:Sweet}.....]}
 	//so you could set the label of the option tag something different than the name
-	let colorOptions = {
-		"js puns": [{
-			value: "cornflowerblue",
-			text: "Cornflower Blue"
-		}, {
-			value: "darkslategrey",
-			text: "Dark Slate Grey"
-		}, {
-			value: "gold",
-			text: "Gold"
-		}],
-		"heart js": [{
-			value: "tomato",
-			text: "Tomato"
-		}, {
-			value: "steelblue",
-			text: "Steel Blue"
-		}, {
-			value: "dimgrey",
-			text: "Dim Grey"
-		}]
-	};
+	heartjspuns = {};
+	insideheart = [];
+	insidepuns = [];
+	heartjspuns = {jspuns:insidepuns, heartjs:insideheart};
+	var selectColors = document.getElementById('color');
 
-	var A = document.getElementById('design');
-	var B = document.getElementById('color');
+	for (var i = 0, l = selectColors.childNodes.length; i < l; i++) {
+		if (selectColors.childNodes[i].nodeName === 'OPTION') {
+			//get text portion
+			getInner = selectColors.childNodes[i].innerHTML;
+			//get value portion
+			getInnerValue = selectColors.childNodes[i].value;
+
+			getInnerIndex = getInner.indexOf("(");
+			getInnerColor = getInner.substring(0, getInnerIndex - 1);
+			getGroup = getInner.substring(getInnerIndex);
+			//console.log('getInnerValue: ', getInnerValue, "  getinner:", getInner);
+
+			obj = {
+				value: getInnerValue,
+				text: getInnerColor
+			};
+		
+			isPuns = getInner.indexOf("Puns");
+			if (isPuns > 0) {
+				insidepuns.push(obj);
+			} else {
+				insideheart.push(obj);
+			}
+		}
+	}
+
+	let A = document.getElementById('design');
+	let B = document.getElementById('color');
 
 	A.onchange = function () {
 		//clear out B
 		B.length = 0;
-		//get the selected value from A
-		var _val = this.options[this.selectedIndex].value;
+		//get the selected value from A - design
+		let _val = this.options[this.selectedIndex].value;
 		if (_val == "" || _val == "Select Theme") {
 			document.getElementById('colors-js-puns').style.display = 'none';
 		} else {
 			document.getElementById('colors-js-puns').style.display = 'block';
 
 			//loop through bOption at the selected value
-			for (var i in colorOptions[_val]) {
+			for (var i in heartjspuns[_val]) {
 				//create option tag
 				var op = document.createElement('option');
 				//set its value
-				op.value = colorOptions[_val][i].value;
+				op.value = heartjspuns[_val][i].value;
 
 				//set the display label
-				op.text = colorOptions[_val][i].text;
+				op.text = heartjspuns[_val][i].text;
 				//append it to B
 				B.appendChild(op);
 			}
@@ -82,7 +91,7 @@ const paymentTypes = [{
 document.addEventListener('DOMContentLoaded', function () {
 	document.querySelector('#all').addEventListener('change', CBchangeHandler);
 });
- document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
 	document.querySelector('#npm').addEventListener('change', CBchangeHandler);
 });
 document.addEventListener('DOMContentLoaded', function () {
@@ -103,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
 	document.querySelector('#title').addEventListener('change', jobtitle);
 });
- 
+
 document.addEventListener('DOMContentLoaded', function () {
 	document.querySelector('#npm').addEventListener('change', CBchangeHandler);
 });
@@ -116,9 +125,6 @@ function CBchangeHandler(e) {
 	let tempCount = 0;
 	let getSelected = (e.target.id);
 	let getSelectedName = (e.target.name);
-	console.log('getSelect ', getSelected);
-
-	console.log('getSelectName ', getSelectedName);
 
 	let thisCB = document.getElementsByName(getSelectedName);
 	thisCB.forEach(function (e) {
@@ -127,31 +133,33 @@ function CBchangeHandler(e) {
 		}
 	});
 	if (tempCount > 1) {
-		console.log('im in ', document.getElementById(getSelected));
 		document.getElementById(getSelected).checked = false;
 		alert('You can only select one class per time slot.  Remove other class before selecting this one.')
-	 };
-	console.log('current count is: ', tempCount);
-	/*go through all of the classes for this time block;   
+	};
+
+	// THIS WORKED but failed in review...didnt want to kill it
+
+	/*go through all of the classes for this time block;
 		if the action unchecked, it enables all of the classes
 		if checked, disable all the other classes
 	*/
-/* 	if (e.target.checked) {
-		classCount += 1;
-		let thisCB = document.getElementsByName(getSelectedName);
-		thisCB.forEach(function (e) {
-			if (getSelected !== e.id) {
-				e.disabled = true;
-			}
-		});
-	} else {
-		let thisCB = document.getElementsByName(getSelectedName);
-		thisCB.forEach(function (e) {
-			e.disabled = false;
-		});
-	};
- */
-	
+
+	/* 	if (e.target.checked) {
+			classCount += 1;
+			let thisCB = document.getElementsByName(getSelectedName);
+			thisCB.forEach(function (e) {
+				if (getSelected !== e.id) {
+					e.disabled = true;
+				}
+			});
+		} else {
+			let thisCB = document.getElementsByName(getSelectedName);
+			thisCB.forEach(function (e) {
+				e.disabled = false;
+			});
+		};
+	 */
+
 	/*go through all classes to get total dollar amount 
 	 const scheduleBlocks Array should have the class names
 	 of each schedule block.  This allows for additional blocks to be added
@@ -174,7 +182,7 @@ function CBchangeHandler(e) {
 
 		if (classCount !== 0) {
 			document.getElementById('minClass').textContent = "Register for Activities";
-  			document.getElementById('minClass').style.color = '#184f68';
+			document.getElementById('minClass').style.color = '#184f68';
 		} else {
 			document.getElementById('minClass').textContent = "Register for Activities - Select a Class";
 		}
@@ -243,7 +251,7 @@ function emailKey(e) {
 function errHelper(getField) {
 	let errField = "err" + getField;
 	let getErrField = document.getElementById(errField);
-	console.log(getField);
+
 	if (getField === "name") {
 		if (document.getElementById(getField).value == '' && checkForm === 1) {
 			document.getElementById(errField).textContent = "Please enter a name.";
@@ -296,15 +304,22 @@ function validateForm() {
 	checkForm = 1;
 	let submitTemp = '';
 	let submitTrue = true;
-	if (document.getElementById('name').textContent === "") {
+
+
+
+	if (document.getElementById('name').value === "") {
 		submitTemp = submitTemp + "<br>" + "Complete Name";
 		errHelper('name');
 		submitTrue = false;
 	}
-	if (document.getElementById('email').textContent === "") {
+	if (document.getElementById('email').value === "") {
 		submitTemp = submitTemp + "<br>" + "Email";
 		errHelper('email');
 		submitTrue = false;
+	}
+	let testmail = emailvalid.test(document.getElementById('email'));
+	if (testmail) {
+		sumbitTrue = false;
 	}
 
 	if (document.getElementById('minClass').textContent == "Register for Activities - Select a Class") {
@@ -335,7 +350,7 @@ function validateForm() {
 		alert("Form Validated and faux submitted");
 		return false;
 	} else {
-	//	document.getElementById('submitInfo').innerHTML = submitTemp;
+		//document.getElementById('submitInfo').innerHTML = submitTemp;
 		alert("Missing Info - see items above button");
 		return false;
 	}
