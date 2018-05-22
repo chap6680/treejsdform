@@ -2,6 +2,8 @@
 // but if we need to add another, can do here 
 const scheduleBlocks = ['CBall', 'CBam', 'CBpm'];
 
+let checkForm = 0;
+
 const paymentTypes = [{
 	value: 'credit-card',
 	name: 'credit card'
@@ -80,7 +82,7 @@ const paymentTypes = [{
 document.addEventListener('DOMContentLoaded', function () {
 	document.querySelector('#all').addEventListener('change', CBchangeHandler);
 });
-document.addEventListener('DOMContentLoaded', function () {
+ document.addEventListener('DOMContentLoaded', function () {
 	document.querySelector('#npm').addEventListener('change', CBchangeHandler);
 });
 document.addEventListener('DOMContentLoaded', function () {
@@ -101,20 +103,40 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
 	document.querySelector('#title').addEventListener('change', jobtitle);
 });
+ 
+document.addEventListener('DOMContentLoaded', function () {
+	document.querySelector('#npm').addEventListener('change', CBchangeHandler);
+});
 
 //selection of classes - function does several things - 
 // makes sure only one class is selected for each
 // figures out how much the total is
 function CBchangeHandler(e) {
 	let classCount = 0;
+	let tempCount = 0;
 	let getSelected = (e.target.id);
 	let getSelectedName = (e.target.name);
+	console.log('getSelect ', getSelected);
 
+	console.log('getSelectName ', getSelectedName);
+
+	let thisCB = document.getElementsByName(getSelectedName);
+	thisCB.forEach(function (e) {
+		if (e.checked === true) {
+			tempCount += 1;
+		}
+	});
+	if (tempCount > 1) {
+		console.log('im in ', document.getElementById(getSelected));
+		document.getElementById(getSelected).checked = false;
+		alert('You can only select one class per time slot.  Remove other class before selecting this one.')
+	 };
+	console.log('current count is: ', tempCount);
 	/*go through all of the classes for this time block;   
 		if the action unchecked, it enables all of the classes
 		if checked, disable all the other classes
 	*/
-	if (e.target.checked) {
+/* 	if (e.target.checked) {
 		classCount += 1;
 		let thisCB = document.getElementsByName(getSelectedName);
 		thisCB.forEach(function (e) {
@@ -128,14 +150,15 @@ function CBchangeHandler(e) {
 			e.disabled = false;
 		});
 	};
-
+ */
+	
 	/*go through all classes to get total dollar amount 
 	 const scheduleBlocks Array should have the class names
 	 of each schedule block.  This allows for additional blocks to be added
 	*/
 
 	let group = document.getElementsByName(getSelectedName);
-	
+
 	let sum = 0.00;
 	scheduleBlocks.forEach(function (block) {
 
@@ -151,6 +174,7 @@ function CBchangeHandler(e) {
 
 		if (classCount !== 0) {
 			document.getElementById('minClass').textContent = "Register for Activities";
+  			document.getElementById('minClass').style.color = '#184f68';
 		} else {
 			document.getElementById('minClass').textContent = "Register for Activities - Select a Class";
 		}
@@ -159,144 +183,175 @@ function CBchangeHandler(e) {
 	});
 };
 
-	function jobtitle(e) {
-		var strdisplay = e.target.value;
-		var e = document.getElementById("other-title");
-		if (strdisplay == "other") {
-			e.style.display = "block";
-		} else {
-			e.style.display = "none";
-		}
+function jobtitle(e) {
+	var strdisplay = e.target.value;
+	var e = document.getElementById("other-title");
+	if (strdisplay == "other") {
+		e.style.display = "block";
+	} else {
+		e.style.display = "none";
 	}
+}
 
 
-	function payment(e) {
-		let strdisplay = e.target.value;
-		let getSelectedName = (e.target.name);
-		paymentTypes.forEach(function (pt) {
-			let e = document.getElementById(pt.value);
-			if (pt.name !== strdisplay) {
-				e.style.display = "none";
-			} else {
-				e.style.display = "block";
-			}
-		})
-	}
-
-
-	/*KICK OFF starting items - mostly hiding fields - but if JavaScript is not 
-	enabled then the fields all show up
-	*/
-	document.getElementById('payment').selectedIndex = 1;
-	let initPayment = 'credit card';
+function payment(e) {
+	let strdisplay = e.target.value;
+	let getSelectedName = (e.target.name);
 	paymentTypes.forEach(function (pt) {
 		let e = document.getElementById(pt.value);
-		if (pt.name !== initPayment) {
+		if (pt.name !== strdisplay) {
 			e.style.display = "none";
 		} else {
 			e.style.display = "block";
 		}
 	})
+}
 
-	document.getElementById("other-title").style.display = 'none';
 
-
-	function emailKey(e) {
-		let getCurrentInput = document.getElementById('email');
-
-		let testmail = emailvalid.test(getCurrentInput.value);
-
-		//	errHelper('email');
-		if (testmail) {
-			document.getElementById('erremail').textContent = "Email looks good"
-		} else {
-			document.getElementById('erremail').textContent = "Please enter valid address."
-		};
+/*KICK OFF starting items - mostly hiding fields - but if JavaScript is not 
+enabled then the fields all show up
+*/
+document.getElementById('payment').selectedIndex = 1;
+let initPayment = 'credit card';
+paymentTypes.forEach(function (pt) {
+	let e = document.getElementById(pt.value);
+	if (pt.name !== initPayment) {
+		e.style.display = "none";
+	} else {
+		e.style.display = "block";
 	}
+})
 
-	//function used to test if fields are valid.  Tried to use one error function
-	//for all fields.
-	function errHelper(getField) {
-		let errField = "err" + getField;
-		let getErrField = document.getElementById(errField);
+document.getElementById("other-title").style.display = 'none';
 
-		if (getField == "cc-num") {
-			if (document.getElementById(getField).value == '') {
-				document.getElementById(errField).textContent = "Please enter a credit card number.";
-			};
-			if (document.getElementById(getField).value.length <= 13 || document.getElementById(getField).value.length > 16) {
-				document.getElementById(errField).textContent = "Credit Card should have 13 to 16 digits."
-			} else {
-				document.getElementById(errField).textContent = ' ';
-			};
-		} else if (getField == "zip") {
-			if (document.getElementById(getField).value.length < 5) {
-				document.getElementById(errField).textContent = "Generally 5 digits";
-			} else {
-				document.getElementById(errField).textContent = "";
-			}
-		} else if (getField == "cvv") {
-			if (document.getElementById(getField).value.length !== 3) {
-				document.getElementById(errField).textContent = "Enter 3 digits";
-			} else {
-				document.getElementById(errField).textContent = "";
-			}
+
+function emailKey(e) {
+	let getCurrentInput = document.getElementById('email');
+
+	let testmail = emailvalid.test(getCurrentInput.value);
+
+	//	errHelper('email');
+	if (testmail) {
+		document.getElementById('erremail').textContent = "Email looks good"
+	} else {
+		document.getElementById('erremail').textContent = "Please enter valid address."
+	};
+}
+
+//function used to test if fields are valid.  Tried to use one error function
+//for all fields.
+function errHelper(getField) {
+	let errField = "err" + getField;
+	let getErrField = document.getElementById(errField);
+	console.log(getField);
+	if (getField === "name") {
+		if (document.getElementById(getField).value == '' && checkForm === 1) {
+			document.getElementById(errField).textContent = "Please enter a name.";
 		} else {
-			let tempValue = document.getElementById(getField);
-			if ((tempValue.value == null || tempValue.value === undefined || tempValue.value == '' || tempValue.value.length <= 0)) {
-				document.getElementById(errField).textContent = "Required Field";
-			} else {
-				document.getElementById(errField).textContent = "";
+			document.getElementById(errField).textContent = '';
+		}
+	} else if (getField === "email") {
+		if (document.getElementById(getField).value == '' && checkForm === 1) {
+			document.getElementById(errField).textContent = "Please enter an email.";
+		} else {
+			document.getElementById(errField).textContent = "";
+		};
+	} else if (getField == "cc-num") {
+		if (document.getElementById(getField).value == '') {
+			document.getElementById(errField).textContent = "Please enter a credit card number.";
+		};
+		if (document.getElementById(getField).value.length <= 13 || document.getElementById(getField).value.length > 16) {
+			document.getElementById(errField).textContent = "Credit Card should have 13 to 16 digits."
+		} else {
+			document.getElementById(errField).textContent = ' ';
+		};
+	} else if (getField == "zip") {
+		if (document.getElementById(getField).value.length < 5) {
+			document.getElementById(errField).textContent = "Generally 5 digits";
+		} else {
+			document.getElementById(errField).textContent = "";
+		}
+	} else if (getField == "cvv") {
+		if (document.getElementById(getField).value.length !== 3) {
+			document.getElementById(errField).textContent = "Enter 3 digits";
+		} else {
+			document.getElementById(errField).textContent = "";
+		}
+	} else {
+		let tempValue = document.getElementById(getField);
+		if ((tempValue.value == null || tempValue.value === undefined || tempValue.value == '' || tempValue.value.length <= 0)) {
+			document.getElementById(errField).textContent = "Required Field";
+		} else {
+			document.getElementById(errField).textContent = "";
 
-			}
 		}
 	}
+}
 
 
-	//validate form - 
-	// probably can make the code more efficient since some of this is duplicating.
-	// made the decision to create one error function to test all fields
-	function validateForm() {
-		let submitTemp = '';
-		let submitTrue = true;
-		if (document.getElementById('minClass').textContent == "Register for Activities - Select a Class") {
-			submitTemp = submitTemp + "<br>" + "Register for at least one Class";
+//validate form - 
+// probably can make the code more efficient since some of this is duplicating.
+// made the decision to create one error function to test all fields
+function validateForm() {
+	checkForm = 1;
+	let submitTemp = '';
+	let submitTrue = true;
+	if (document.getElementById('name').textContent === "") {
+		submitTemp = submitTemp + "<br>" + "Complete Name";
+		errHelper('name');
+		submitTrue = false;
+	}
+	if (document.getElementById('email').textContent === "") {
+		submitTemp = submitTemp + "<br>" + "Email";
+		errHelper('email');
+		submitTrue = false;
+	}
+
+	if (document.getElementById('minClass').textContent == "Register for Activities - Select a Class") {
+		document.getElementById('minClass').style.color = 'red';
+		submitTemp = submitTemp + "<br>" + "Register for at least one Class";
+		submitTrue = false;
+	}
+
+	if (document.getElementById('payment').value == 'credit card') {
+		if (document.getElementById('cc-num').value == "" || document.getElementById('errcc-num').textContent == "Credit Card should have 13 to 16 digits.") {
+			submitTemp = submitTemp + "<br>" + "Enter valid Credit card number";
+			errHelper('cc-num');
 			submitTrue = false;
 		}
-		if (document.getElementById('payment').value == 'credit card') {
-			if (document.getElementById('cc-num').value == "" || document.getElementById('errcc-num').textContent == "Credit Card should have 13 to 16 digits.") {
-				submitTemp = submitTemp + "<br>" + "Enter valid Credit card number";
-				submitTrue = false;
-			}
-			if (document.getElementById('zip').value == "" || document.getElementById('errzip').textContent == "Generally 5 Digits") {
-				submitTemp = submitTemp + "<br>" + "Enter at least 5 digit zip code";
-				submitTrue = false;
-			}
-			if (document.getElementById('cvv').value == "" || document.getElementById('errcvv').textContent == "Enter 3 digits") {
-				submitTemp = submitTemp + "<br>" + "Enter 3 digit CVV";
-				submitTrue = false;
-			}
+		if (document.getElementById('zip').value == "" || document.getElementById('errzip').textContent == "Generally 5 Digits") {
+			submitTemp = submitTemp + "<br>" + "Enter at least 5 digit zip code";
+			errHelper('zip');
+			submitTrue = false;
 		}
-		if (submitTrue) {
-			document.getElementById('submitInfo').textContent = '';
-			alert("Form Validated and faux submitted");
-			return false;
-		} else {
-			document.getElementById('submitInfo').innerHTML = submitTemp;
-			alert("Missing Info - see items above buttond");
-			return false;
+		if (document.getElementById('cvv').value == "" || document.getElementById('errcvv').textContent == "Enter 3 digits") {
+			submitTemp = submitTemp + "<br>" + "Enter 3 digit CVV";
+			errHelper('cvv');
+			submitTrue = false;
 		}
 	}
+	if (submitTrue) {
+		document.getElementById('submitInfo').textContent = '';
+		alert("Form Validated and faux submitted");
+		return false;
+	} else {
+	//	document.getElementById('submitInfo').innerHTML = submitTemp;
+		alert("Missing Info - see items above button");
+		return false;
+	}
+}
 
-	//run iniital functions
+//run iniital functions
 
-	//email validation onkey strokes
-	const emailvalid = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-	email.addEventListener('keypress', emailKey);
+//email validation onkey strokes
+const emailvalid = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+email.addEventListener('keypress', emailKey);
 
 
-	/*run javascript as if payment was selected.  Essentially hides sections if javascript is enabled.
-	 */
-	document.addEventListener('DOMContentLoaded', function () {
-		document.querySelector('#payment').addEventListener('change', payment);
-	});
+/*run javascript as if payment was selected.  Essentially hides sections if javascript is enabled.
+ */
+document.addEventListener('DOMContentLoaded', function () {
+	document.querySelector('#payment').addEventListener('change', payment);
+});
+
+document.getElementById('name').focus();
