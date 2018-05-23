@@ -1,0 +1,84 @@
+	const heart1 = "I &#9829; JS Shirt Only)";
+  const jspuns = 'JS Puns shirt only)';
+
+let colorOptions = {
+		jspuns: [{
+			value: "cornflowerblue",
+			text: "Cornflower Blue"
+		}, {
+			value: "darkslategrey",
+			text: "Dark Slate Grey"
+		}, {
+			value: "gold",
+			text: "Gold"
+		}],
+		heartjs: [{
+			value: "tomato",
+			text: "Tomato"
+		}, {
+			value: "steelblue",
+			text: "Steel Blue"
+		}, {
+			value: "dimgrey",
+			text: "Dim Grey"
+		}]
+	};
+
+var select = document.getElementById('color');
+
+let arr = {};
+let brr = [];
+let crr = {};
+
+
+for (var i = 0, l = select.childNodes.length; i < l; i++) {
+    if (select.childNodes[i].nodeName === 'OPTION') {
+      getInner = select.childNodes[i].innerHTML;
+      getInnerValue = select.childNodes[i].value;
+      
+      console.log('getinner ', getInnerValue);
+      
+      getInnerIndex = getInner.indexOf("(");
+      
+      getInnerColor = getInner.substring(0,getInnerIndex-1);
+      getGroup = getInner.substring(getInnerIndex);
+      console.log(getGroup);
+
+      obj = {value: getInnerValue, text:getInnerColor };
+      //arr[i]=obj;
+//      obj = {value: getInnerValue, text:select.childNodes[i].innerHTML };
+      if(getGroup === jspuns) {
+      //arr[0].push(obj);  
+      }else {
+      //arr[1].push(obj);  
+     
+    }
+      //arr.push(select.childNodes[i].innerHTML);
+    
+    }
+}
+console.log(arr) 
+//var result = objArray.map(a => a.foo);
+
+/*
+var cup = [];
+let objOBJ = {value: 'cornflowerblue', text: 'Cornflower Blue', };
+cup[0] = objOBJ; 
+objOBJ = {value: 'asdfue', text: 'asdf', };
+cup.push(objOBJ);
+
+//console.log(arr[0].indexOf("("))
+
+let result = arr.filter(getall=>getall.subString(0,8));
+*/
+
+
+
+    isPuns = getInner.indexOf("Puns");
+        if (isPuns >0 ) {
+          inside.push(obj);
+        } else {
+          insideheart.push(obj);
+        }
+        topobj = {jspuns:insideA};
+        insideA.push(obj);

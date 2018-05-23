@@ -1,6 +1,6 @@
 // set up time schedule blocks.  Begin with 3 - main, am and pm.
 // but if we need to add another, can do here 
-const scheduleBlocks = ['CBall', 'CBam', 'CBpm'];
+const scheduleBlocks = ['CBall', 'CBam', 'CBpm','CBwedam', 'CBwedpm'];
 
 let checkForm = 0;
 
@@ -13,7 +13,9 @@ const paymentTypes = [{
 }, {
 	value: 'paypal',
 	name: 'paypal'
-}];
+	}];
+
+let classCount = 0;
 
 //set the dropdown colors based on selection.  create from the list of colors in html	
 (function () {
@@ -121,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // makes sure only one class is selected for each
 // figures out how much the total is
 function CBchangeHandler(e) {
-	let classCount = 0;
+	classCount = 0;
 	let tempCount = 0;
 	let getSelected = (e.target.id);
 	let getSelectedName = (e.target.name);
@@ -138,6 +140,7 @@ function CBchangeHandler(e) {
 	};
 
 	// THIS WORKED but failed in review...didnt want to kill it
+	// problem really was there were more 
 
 	/*go through all of the classes for this time block;
 		if the action unchecked, it enables all of the classes
@@ -171,7 +174,7 @@ function CBchangeHandler(e) {
 	scheduleBlocks.forEach(function (block) {
 
 		let group = document.getElementsByName(block);
-
+		//console.log('group ', group.length, " - block ", block);
 		for (let i = 0; i < group.length; i++) {
 			if (group[i].checked == true) {
 				classCount += 1;
@@ -266,9 +269,8 @@ function errHelper(getField) {
 		};
 	} else if (getField == "cc-num") {
 		if (document.getElementById(getField).value == '') {
-			document.getElementById(errField).textContent = "Please enter a credit card number.";
-		};
-		if (document.getElementById(getField).value.length <= 13 || document.getElementById(getField).value.length > 16) {
+			document.getElementById(errField).textContent = "Credit card field should not be blank";
+		} else if (document.getElementById(getField).value.length <= 13 || document.getElementById(getField).value.length > 16) {
 			document.getElementById(errField).textContent = "Credit Card should have 13 to 16 digits."
 		} else {
 			document.getElementById(errField).textContent = ' ';
@@ -308,12 +310,12 @@ function validateForm() {
 
 
 	if (document.getElementById('name').value === "") {
-		submitTemp = submitTemp + "<br>" + "Complete Name";
+		submitTemp = submitTemp + "\r\n" + "Complete Name";
 		errHelper('name');
 		submitTrue = false;
 	}
 	if (document.getElementById('email').value === "") {
-		submitTemp = submitTemp + "<br>" + "Email";
+		submitTemp = submitTemp + "\r\n" + "Email";
 		errHelper('email');
 		submitTrue = false;
 	}
@@ -322,25 +324,28 @@ function validateForm() {
 		sumbitTrue = false;
 	}
 
-	if (document.getElementById('minClass').textContent == "Register for Activities - Select a Class") {
+/* 	if (document.getElementById('minClass').textContent == "Register for Activities - Select a Class") {
+ */
+	if (classCount === 0) {
 		document.getElementById('minClass').style.color = 'red';
-		submitTemp = submitTemp + "<br>" + "Register for at least one Class";
+		submitTemp = submitTemp + "\r\n" + "Register for at least one Class";
 		submitTrue = false;
 	}
 
 	if (document.getElementById('payment').value == 'credit card') {
 		if (document.getElementById('cc-num').value == "" || document.getElementById('errcc-num').textContent == "Credit Card should have 13 to 16 digits.") {
-			submitTemp = submitTemp + "<br>" + "Enter valid Credit card number";
+			submitTemp = submitTemp + "\r\n" + "Enter valid Credit card number";
 			errHelper('cc-num');
 			submitTrue = false;
 		}
+		
 		if (document.getElementById('zip').value == "" || document.getElementById('errzip').textContent == "Generally 5 Digits") {
-			submitTemp = submitTemp + "<br>" + "Enter at least 5 digit zip code";
+			submitTemp = submitTemp + "\r\n" + "Enter at least 5 digit zip code";
 			errHelper('zip');
 			submitTrue = false;
 		}
 		if (document.getElementById('cvv').value == "" || document.getElementById('errcvv').textContent == "Enter 3 digits") {
-			submitTemp = submitTemp + "<br>" + "Enter 3 digit CVV";
+			submitTemp = submitTemp + "\r\n" + "Enter 3 digit CVV";
 			errHelper('cvv');
 			submitTrue = false;
 		}
@@ -348,10 +353,16 @@ function validateForm() {
 	if (submitTrue) {
 		document.getElementById('submitInfo').textContent = '';
 		alert("Form Validated and faux submitted");
+		window.location.href = 'index.html';
 		return false;
+		
+//		location.reload;
+//		document.getElementById('formClass').reset();
+	//		getForm.submit();
+	//	return true;
 	} else {
 		//document.getElementById('submitInfo').innerHTML = submitTemp;
-		alert("Missing Info - see items above button");
+		alert("Missing Info - check the following fields:" + submitTemp );
 		return false;
 	}
 }

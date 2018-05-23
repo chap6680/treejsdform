@@ -1,0 +1,71 @@
+ Elements that Need Work
+Focus on the first field
+On page load, the cursor does not appear in the “Name” field.
+Reviewer Comments:
+Make sure to have focus on the name field, so when I first pull up your project the name field should be highlighted.
+
+Activity Registration
+User can select two activities that are at the same time.
+The total cost of selected activities is not calculated or displayed.
+Reviewer Comments:
+Something's not quite right. When I choose one activity, two others are deactivated. I see you have set classes in the index.html. Going this route, don't set a listener on each activity, it may be better to set it on the parent that covers all activities, and then target the activities that conflict times based on what I choose.
+
+The only activity that's giving normal behavior is Main Conference.
+
+Form Validation
+Form can be submitted (the page refreshes when the submit button is clicked) even with incorrect information, such as:
+
+Name field is blank
+
+Email is not formatted correctly
+
+No checkbox selected in “Register for Activities” section
+
+Reviewer Comments:
+Right now, errors show on the name and email field before I click submit. If I click on the name field then click out of it (because, for example, I want to fill it in last), "Required field" shows. For user-friendly experience, errors should only appear after I click "Submit," because this serves as a comprehensive check. Users may not like the form if they're alerted of each error separately.
+
+Form Validation Messages
+On submission, the form provides no indication of a validation error, or only includes error messages for some of the required validation fields.
+Reviewer Comments:
+There are error messages for all fields, but on submission, there is no validation for name and email. Because of this, the browser's default validations are being used. You always want to use custom validation because browsers will not catch all errors I can produce. Make sure all fields have your own validation.
+
+ Elements that Met Expectations
+Job Role Section
+"Your job role" text field appears when user selects "Other" from the Job Role menu.
+Reviewer Comments:
+Awesome -- the "Job Role" field is appearing and hiding.
+
+Displaying payment sections
+When a user chooses a payment option, the chosen payment section is revealed and the other payment sections are hidden.
+Reviewer Comments:
+Good work, your payment fields don't display until they're needed. That's great!
+
+Form Works Without JavaScript
+When JavaScript is disabled, all form fields and payment information is displayed, including the "Other" field in the "Job Role" menu
+Reviewer Comments:
+Your form displays all required information, even when JavaScript is turned off.
+
+ Elements that Exceeded Expectations
+T-Shirt Section
+“Color” drop down menu is hidden until a T-Shirt design is selected.
+Reviewer Comments:
+Good work adding some extra touches to the T-Shirt section! I really like that when I choose "Select Theme" the color list is then hidden.
+
+Overall Comments
+Great work so far! Don't get bogged by the errors, we all have to deal with them. That's why we're all here to help each other out. There are few things to work out.
+
+1) Name field needs to have focus upon opening.
+
+2) Create your own validations for the name and email field. emailKey() just checks for validity in real-time and not upon submission. I don't see anything custom for the name field in your code.
+
+3) The activities section is producing strange behavior. Again, take advantage of DOM traversal methods in order to get the job done. Hopefully, this won't be too troubling because you've already set attributes for each input.
+
+I noticed for the t-shirt colors that you set up an object of array objects. The names are already in the html. How else can you target shirts and colors without writing the colors again in the Javascript file? It's all about DOM manipulation, which is a trip to use at first, but, trust me, it will make your life as a developer much easier if you how to target children and connect them to parents and targeting siblings. It's not a requirement, but a small suggestion.
+
+You got this! Any questions you have, come over to Slack and lay them on us.
+
+
+name focused on opening ( missed that )
+activity registration - the comment was "When I choose one activity, two others are deactivated."  I thought that was what to happen - select one checkbox for that time period and the other two should "be inactive".  I did change it - using your suggestion.  Now an alert pops up when trying to select a 2nd class in a time slot.
+name and email now have personalized errors plus on submit it fails;
+Understand and appreciate your comment on the colors/creating an array object.  I did not change it - but 
